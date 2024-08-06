@@ -1,0 +1,25 @@
+{
+  "devDependencies": {
+    "@types/node": "20.12.7",
+    "gts": "^5.3.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
+  },
+  "scripts": {
+    "dev": "npx tsc-node src/index.ts",
+    "start": "node ./build/index.js",
+    "main": "index.js",
+    "lint": "gts lint",
+    "clean": "gts clean",
+    "build": "tsc",
+    "compile": "tsc",
+    "precompile": "npm run clean",
+    "postcompile": "cp package.json build && cd build && npm install --only=production && zip -r app.zip * && mv app.zip /mnt/c/Users/Carlos/Desktop/",
+    "fix": "gts fix",
+    "posttest": "npm run lint"
+  },
+  "dependencies": {
+    "ask-sdk": "^2.14.0",
+    "axios": "^1.7.3"
+  }
+}
