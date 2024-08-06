@@ -1,5 +1,5 @@
 import {RequestHandler, HandlerInput} from 'ask-sdk';
-import {SessionEndedRequest} from 'ask-sdk-model';
+import {inspect} from 'util';
 
 const SessionEndedRequestHandler: RequestHandler = {
   canHandle(handlerInput: HandlerInput): boolean {
@@ -8,7 +8,7 @@ const SessionEndedRequestHandler: RequestHandler = {
   },
   handle(handlerInput: HandlerInput) {
     console.log(
-      `Sesión finalizada con reason: ${(handlerInput.requestEnvelope.request as SessionEndedRequest).reason}`
+      `Sesión finalizada con reason: ${inspect(handlerInput.requestEnvelope.request)}`
     );
 
     return handlerInput.responseBuilder.getResponse();

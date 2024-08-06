@@ -27,7 +27,7 @@ async function getInfoForStation(id: number) {
     );
     return data.data[0];
   } catch (err) {
-    console.error('Error while restrieving accessToken: ' + inspect(err));
+    console.error('Error while restrieving Bicimad info: ' + inspect(err));
   }
 }
 
