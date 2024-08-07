@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "ask-sdk": "^2.14.0",
-    "axios": "^1.7.3"
+    "axios": "^1.7.3",
+    "ts-retry-promise": "^0.8.1"
   }
 }

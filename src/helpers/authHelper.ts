@@ -1,4 +1,5 @@
 import axios from 'axios';
+import {retry} from 'ts-retry-promise';
 import {inspect} from 'util';
 
 const AUTH_URL = 'https://openapi.emtmadrid.es/v2/mobilitylabs/user/login/';
@@ -13,15 +14,18 @@ type BicimadAuthResponse = {
 
 async function getAccessToken() {
   try {
-    const {data} = await axios.get<BicimadAuthResponse>(AUTH_URL, {
-      headers: {
-        'X-ClientId': BICIMAD_X_CLIENT_ID,
-        passKey: BICIMAD_PASS_KEY,
-      },
-    });
+    const {data} = await retry(
+      () =>
+        axios.get<BicimadAuthResponse>(AUTH_URL, {
+          headers: {
+            'X-ClientId': BICIMAD_X_CLIENT_ID,
+            passKey: BICIMAD_PASS_KEY,
+          },
+        }),
+      {retries: 10}
+    );
 
     const accessToken = data.data[0].accessToken;
-    console.log('Retrieved access token: ' + accessToken);
     return accessToken;
   } catch (err) {
     console.error('Error while restrieving accessToken: ' + inspect(err));

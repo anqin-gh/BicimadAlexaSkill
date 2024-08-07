@@ -1,6 +1,7 @@
 import axios from 'axios';
 import getAccessToken from './authHelper';
 import {inspect} from 'util';
+import {retry} from 'ts-retry-promise';
 
 const BICIMAD_STATIONS_URL =
   'https://openapi.emtmadrid.es/v1/transport/bicimad/stations/';
@@ -17,13 +18,17 @@ type BicimadStationInformationResponse = {
 async function getInfoForStation(id: number) {
   try {
     const accessToken = await getAccessToken();
-    const {data} = await axios.get<BicimadStationInformationResponse>(
-      BICIMAD_STATIONS_URL + id,
-      {
-        headers: {
-          accessToken,
-        },
-      }
+    const {data} = await retry(
+      () =>
+        axios.get<BicimadStationInformationResponse>(
+          BICIMAD_STATIONS_URL + id,
+          {
+            headers: {
+              accessToken,
+            },
+          }
+        ),
+      {retries: 10}
     );
     return data.data[0];
   } catch (err) {
